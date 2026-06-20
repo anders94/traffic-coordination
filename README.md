@@ -6,6 +6,13 @@ rather than being hand-tuned. This repo is **Milestone 1**: a small, transparent
 single-intersection microsimulator and a learning controller that has to beat the
 engineered baselines on **total vehicle-delay subject to a fairness cap**.
 
+<p align="center">
+  <img src="img/phase-1.gif" alt="Phase 1: learned single-intersection control" width="420">
+  <br>
+  <em>Phase 1 — the learned controller holding the highway green and clearing the side
+  street just in time (delay cost ticking up top).</em>
+</p>
+
 > Honest framing (see `~/.claude/plans/...` plan and the research that grounds it):
 > camera/AI adaptive control already ships commercially (NoTraffic, InSync, Surtrac),
 > and realistic gains from re-timing are bounded (~10% on poorly-tuned, under-saturated
