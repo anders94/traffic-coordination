@@ -19,7 +19,7 @@ viz = ["matplotlib>=3.7"]
 dev = ["pytest>=7.0"]
 
 [tool.setuptools]
-packages = ["sim", "envs", "controllers", "metrics", "viz", "experiments"]
+packages = ["sim", "envs", "controllers", "metrics", "viz", "experiments", "safety"]
 
 [tool.setuptools.package-data]
 scenarios = ["*.yaml"]

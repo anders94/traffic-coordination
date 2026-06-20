@@ -8,5 +8,6 @@ build/
 dist/
 runs/
 *.gif
+!img/*.gif
 .pytest_cache/
 notes.txt

@@ -313,11 +313,56 @@ and for the qualitative jobs loops can't do at all (turning counts, emergency pr
 pedestrians, anomalies). Perception enables good control; it doesn't substitute for it.
 
 ## Phase 4 — Interoperability & safety
-*(not yet started)*
 
-Planned: the safety envelope (min/max green, clearance, conflict monitor) as the
-inviolable layer a learned policy must live inside; NTCIP/NEMA interfaces; the
-standards/liability reasons adoption sits below 1%.
+*Entry — 2026-06-20*
+
+This phase is about deployability, not efficiency: what must be true for a learning
+controller to run on a public signal — and why, after ~20 years of adaptive-control
+research, under 1% of US signals use it.
+
+**The safety architecture (built and demonstrated).** Two independent layers:
+1. *The envelope (proactive).* The controller never commands raw signal indications — it
+   only *requests* a phase change. A firmware layer (`sim/signal.py`) enforces minimum
+   green, maximum green, and the yellow + all-red clearance between conflicting phases. A
+   policy may request anything at any time; the envelope clamps it to a legal sequence.
+2. *The conflict monitor (independent backstop).* The software analogue of the hardware
+   Malfunction Management Unit mandated in a NEMA TS-2 cabinet (`safety/conflict_monitor.py`).
+   It watches the indications about to be displayed, knows nothing of the controller's
+   logic, and enforces the physical invariants — no conflicting greens, full clearance,
+   minimum green. On any violation it trips the intersection to flashing-red and latches
+   until a human resets it.
+
+`experiments/safety_demo.py` demonstrates all three guarantees: an adversarial
+"switch every step" controller produced only legal displays (every green ≥ its 5 s
+minimum; monitor never tripped); a fault commanding a conflicting green was caught and
+tripped to flash-red; and a controller that crashes degrades to a safe hold, never a
+dangerous or frozen state.
+
+**Why this is the crux.** It reframes the deployment risk. A learned or unproven policy
+*cannot* cause an unsafe signal — the worst it can physically do is trip the monitor
+(flash-red) or time the phases inefficiently. So the real questions are not "will the AI
+endanger anyone" but efficiency regressions, liability, and procurement. This
+propose-but-can't-dispose architecture is precisely what lets an unproven policy run at all.
+
+**Interoperability.** The policy does not replace the cabinet. It integrates with existing
+infrastructure by speaking the controller's language — requesting phases / setting
+actuation and coordination parameters over NTCIP to a standard NEMA or ATC controller —
+with the conflict monitor and clearance hardware untouched. The cleanest first deployment
+is advisory/shadow (Phase 5): the policy recommends while the existing controller and its
+safety hardware still run the intersection.
+
+**Why adoption is still <1% (the honest barriers).** The blockers are not primarily
+algorithmic. They are MUTCD/standards compliance, agency procurement cycles and budgets,
+safety certification, liability exposure, and institutional conservatism. Our own
+Phase 1–3 results reinforce the caution: the robust wins came from coordination + good
+split tuning (classical, well-understood), while the exotic approaches (hand-combined
+adaptive control, multi-agent RL) underperformed or merely matched them. An agency
+rationally prefers the proven lever.
+
+*Takeaway:* the safety layer is buildable and demonstrable, and it makes "let it learn"
+deployable *in principle*. The remaining gap to the field is institutional and economic,
+not a missing algorithm — which is itself the most important finding for anyone trying to
+bring this to market.
 
 ## Phase 5 — Pilot
 *(not yet started)*
@@ -373,4 +418,13 @@ fixed-time fallback.
   needs enough foresight to clear before arrival. And reactive look-ahead does NOT
   reproduce the green wave (~2.3 stops vs ~1.4 for explicit offsets). Long camera range
   pays off only when used for *planning/coordination*, not reactive switching.
+- F16 — A two-layer safety architecture (proactive envelope + independent conflict
+  monitor) makes an unproven/learning policy deployable: it can only *request* timing
+  within limits it cannot violate, and an independent monitor trips to flash-red on any
+  unsafe display. The worst case is degraded efficiency, never danger — demonstrated
+  against an adversarial controller, an injected conflicting-green fault, and a crash.
+- F17 — The barrier to deployment is institutional, not algorithmic: <1% adoption after
+  ~20 years is driven by standards/procurement/liability/certification — and our results
+  show the proven classical levers (coordination + split tuning) rationally out-compete
+  exotic control anyway, giving agencies little reason to take on the risk.
 - (more as phases progress)
