@@ -1,0 +1,36 @@
+# Same corridor as arterial_corridor, but with time-varying demand: an eastbound peak,
+# then a balanced midday, then a westbound peak. No single fixed timing plan (or fixed
+# green-wave offset, which favors one direction) can be right for all three regimes —
+# this is where a controller that *adapts* to current conditions should earn its keep.
+
+name: arterial_corridor_varying
+
+geometry:
+  n_intersections: 5
+  spacing_m: 400.0
+  arterial_speed_ms: 17.0
+  cross_speed_ms: 11.0
+  min_gap_m: 2.0
+  vehicle_length_m: 5.0
+  startup_reaction_s: 1.5
+  accel_ms2: 2.5
+  decel_ms2: 3.0
+  arterial_lanes: 2
+
+signal:
+  min_green_s: 7.0
+  max_green_s: 60.0
+  yellow_s: 3.0
+  allred_s: 2.0
+  cross_sat_flow_vps: 0.5
+
+demand:
+  schedule:
+    - {until_s: 1200, eb_vph: 1100, wb_vph: 400, cross_vph: 120}   # eastbound peak
+    - {until_s: 2400, eb_vph: 700,  wb_vph: 700, cross_vph: 150}   # balanced midday
+    - {eb_vph: 400, wb_vph: 1100, cross_vph: 120}                  # westbound peak
+
+sim:
+  dt_s: 1.0
+  horizon_s: 3600.0
+  seed: 0

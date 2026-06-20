@@ -1,0 +1,50 @@
+# The motivating case: a divided highway (2 lanes each way, E<->W) forced to stop
+# for a lightly-used single-lane side street (N<->S). A well-timed controller should
+# hold the highway green for long stretches and grant the side street just enough
+# green to clear the few cars that show up — without ever starving it past the cap.
+
+name: divided_highway_side_street
+
+geometry:
+  approach_length_m: 200.0
+  free_flow_speed_ms: 15.0      # default where an approach doesn't set its own speed
+  min_gap_m: 2.0                # bumper-to-bumper gap when stopped (jam spacing)
+  vehicle_length_m: 5.0
+  intersection_clear_m: 15.0    # distance past the line counted as "cleared"
+  startup_reaction_s: 1.5       # start-up lost time; queue launches as a wave
+  accel_ms2: 2.5                # comfortable acceleration
+  decel_ms2: 3.0                # comfortable braking; cars slow over distance to a stop
+
+approaches:                      # highway (E/W) runs faster than the side street (N/S)
+  E: {lanes: 2, speed_ms: 20.0}   # ~45 mph
+  W: {lanes: 2, speed_ms: 20.0}
+  N: {lanes: 1, speed_ms: 11.0}   # ~25 mph
+  S: {lanes: 1, speed_ms: 11.0}
+
+phases:
+  - {name: highway, approaches: [E, W]}
+  - {name: side,    approaches: [N, S]}
+
+signal:
+  min_green_s: 5.0
+  max_green_s: 60.0
+  yellow_s: 3.0
+  allred_s: 2.0
+  passage_time_s: 2.5           # actuated: gap-out threshold
+  detection_zone_m: 60.0        # what a buried loop detector "sees"
+  camera_horizon_m: 200.0       # what an added camera sees (full approach)
+
+demand:                          # vehicles per hour per approach
+  E: 800
+  W: 800
+  N: 60
+  S: 60
+
+fairness:
+  max_wait_s: 90.0               # no vehicle/approach should wait longer than this
+  emergency_weight: 10.0         # hook for M3: emergency vehicles cost 10x delay
+
+sim:
+  dt_s: 1.0
+  horizon_s: 3600.0
+  seed: 0

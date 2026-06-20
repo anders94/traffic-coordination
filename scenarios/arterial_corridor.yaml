@@ -1,0 +1,35 @@
+# A 5-intersection arterial: a two-way through road (eastbound heavier than westbound)
+# crossing five signalized side streets, 400 m apart. The question for Phase 2 is
+# whether coordinating the signal *offsets* lets a platoon ride a "green wave" through
+# all five lights without stopping — something no single-intersection controller can do.
+
+name: arterial_corridor
+
+geometry:
+  n_intersections: 5
+  spacing_m: 400.0
+  arterial_speed_ms: 17.0       # ~38 mph arterial
+  cross_speed_ms: 11.0          # ~25 mph side streets
+  min_gap_m: 2.0
+  vehicle_length_m: 5.0
+  startup_reaction_s: 1.5
+  accel_ms2: 2.5
+  decel_ms2: 3.0
+  arterial_lanes: 2
+
+signal:
+  min_green_s: 7.0
+  max_green_s: 60.0
+  yellow_s: 3.0
+  allred_s: 2.0
+  cross_sat_flow_vps: 0.5       # cross-street discharge while green (veh/s)
+
+demand:
+  eb_vph: 700                   # eastbound arterial
+  wb_vph: 500                   # westbound arterial
+  cross_vph: 120                # per intersection (both cross approaches)
+
+sim:
+  dt_s: 1.0
+  horizon_s: 3600.0
+  seed: 0
