@@ -2,7 +2,7 @@
 
 Make signalized intersections more efficient purely by **re-timing the lights** — using
 existing sensors plus added cameras, with controllers that **learn from the reward**
-rather than being hand-tuned. This repo is an honest, staged R&D exploration of *what
+rather than being hand-tuned. This repo is a staged R&D exploration of *what
 actually moves the needle* on signal timing, built on a small, transparent, self-contained
 traffic simulator. It is a research journal in code, not a product.
 
@@ -13,7 +13,7 @@ traffic simulator. It is a research journal in code, not a product.
   street just in time (delay cost ticking up top).</em>
 </p>
 
-> **Honest framing.** Camera/AI adaptive control already ships commercially (NoTraffic,
+> **Framing.** Camera/AI adaptive control already ships commercially (NoTraffic,
 > InSync, Surtrac), and realistic gains from re-timing are bounded (~10% on poorly-tuned,
 > under-saturated corridors; ~0 or negative under saturation). The value here is not
 > novelty — it is measuring, with adversarial honesty, which levers matter and which
