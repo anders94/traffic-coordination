@@ -16,7 +16,7 @@ traffic simulator. It is a research journal in code, not a product.
 > **Framing.** Camera/AI adaptive control already ships commercially (NoTraffic,
 > InSync, Surtrac), and realistic gains from re-timing are bounded (~10% on poorly-tuned,
 > under-saturated corridors; ~0 or negative under saturation). The value here is not
-> novelty — it is measuring, with adversarial honesty, which levers matter and which
+> novelty — it is measuring, with adversarial rigor, which levers matter and which
 > don't. **The full findings log is [`docs/JOURNAL.md`](docs/JOURNAL.md).**
 
 ## Status

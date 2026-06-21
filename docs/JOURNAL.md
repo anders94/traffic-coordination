@@ -32,7 +32,7 @@ plus the RL literature: RESCO, CoLight).
 - **The objective is old.** Minimizing total vehicle delay is Webster-era theory. Our
   framing of "sum of every car's wasted time" is exactly aggregate delay.
 - **The known failure mode is fairness.** Every adaptive system studied improves the
-  main road partly by **pushing delay onto the side street and left turns**. Any honest
+  main road partly by **pushing delay onto the side street and left turns**. A complete
   objective has to bound the worst-case wait, not just the average.
 - **The category is not new.** Camera/AI adaptive control already ships (NoTraffic,
   InSync, Surtrac). The opportunity is not novelty; it is *how much timing headroom
@@ -86,7 +86,7 @@ return minimizes aggregate delay *subject to nobody being starved.*
    side-street car should not stop a full highway.
 2. **Beating a good adaptive baseline is hard, and the margin is small.** The learned
    controller edged out actuated and max-pressure, but only by ~1–2 points. This is the
-   honest shape of the problem and consistent with the literature: once you're
+   true shape of the problem and consistent with the literature: once you're
    demand-responsive, the remaining headroom on a single isolated light is modest.
 3. **The learned policy rediscovered proportional green allocation.** With no
    instruction, it settled on giving the highway ~91% of green time and the side street
@@ -178,10 +178,10 @@ tuned to the light cross demand.
    and a reminder that under steady demand, tuning the plan beats adding dynamics.
 4. **"Without stopping" is approached, not achieved.** Even under a green wave, ~0% of
    trips were truly stop-free: random arrivals and a standing queue at the first light
-   mean almost everyone stops at least once. The honest claim is *near-free-flow travel
+   mean almost everyone stops at least once. The accurate claim is *near-free-flow travel
    with far fewer, shorter stops* — not zero stops for everyone.
 
-**Saturation sweep (and an honest limitation).** Sweeping eastbound demand from 500 to
+**Saturation sweep (and a real limitation).** Sweeping eastbound demand from 500 to
 1500 veh/h, the green-wave advantage did *not* collapse — it grew (stop reduction
 61%→67%, delay reduction 47%→76%). This **contradicts the well-established field result
 that coordination gains vanish near saturation**, and the discrepancy is instructive:
@@ -218,7 +218,7 @@ but never learns the *temporal offset structure* that makes a green wave. Even o
 time-varying demand, where we expected adaptivity to pay off, the fixed coordinated
 plan with a demand-matched split won.
 
-*Caveats (kept honest):* this is a vanilla multi-agent DQN with a local-queue reward,
+*Caveats (stated plainly):* this is a vanilla multi-agent DQN with a local-queue reward,
 not the published state of the art (e.g., CoLight's graph-attention); a more
 sophisticated design and reward (explicit progression/stop penalties, shared reward)
 might coordinate better. But the result squarely reproduces the real-world picture our
@@ -268,7 +268,7 @@ Swept across traffic from very light to busy.
    smart rest-in-green + anticipate policy (actuated → 15 m anticipatory) is another −20%;
    and extending sight from a 15 m loop to a 200 m camera, *holding the policy fixed*, is
    only a further ~9–13% (and most of that is already captured by a 60 m advance loop).
-3. **Why the extra range buys so little here (honest mechanics).** A 60 m advance loop is
+3. **Why the extra range buys so little here (the mechanics).** A 60 m advance loop is
    already enough to anticipate the *slow* side street (60 m ÷ 11 m/s ≈ 5.5 s ≈ the
    clearance time). And the *fast* main road — the one whose 200 m of foresight a loop
    can't match — rarely faces a red at all, because the controller rests it in green. So
@@ -351,7 +351,7 @@ with the conflict monitor and clearance hardware untouched. The cleanest first d
 is advisory/shadow (Phase 5): the policy recommends while the existing controller and its
 safety hardware still run the intersection.
 
-**Why adoption is still <1% (the honest barriers).** The blockers are not primarily
+**Why adoption is still <1% (the real barriers).** The blockers are not primarily
 algorithmic. They are MUTCD/standards compliance, agency procurement cycles and budgets,
 safety certification, liability exposure, and institutional conservatism. Our own
 Phase 1–3 results reinforce the caution: the robust wins came from coordination + good

@@ -9,7 +9,7 @@ Model summary
 * Four approaches N/E/S/W, each with a configurable number of lanes.
 * Vehicles arrive per approach as a Poisson process at a configured veh/hour rate.
   Arrivals that cannot fit at the upstream entry wait in a `pending` queue and
-  accrue delay there too, so oversaturation is represented honestly.
+  accrue delay there too, so oversaturation is represented faithfully.
 * Longitudinal motion is a simple safe-following rule: each vehicle advances at
   free-flow speed unless blocked by the vehicle ahead (min gap) or by a non-green
   signal at the stop line.
